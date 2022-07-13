@@ -1,5 +1,16 @@
-from app import ALLOWED_EXTENSIONS
+
+
+from click import FileError
+from numpy import true_divide
+
 
 def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    '''
+    input: filename -> explicitly only dockerfile
+    output: boolean
+    '''
+    if filename == 'dockerfile':
+        return True
+    else:
+        return 'Wrong file format' + FileError
+    

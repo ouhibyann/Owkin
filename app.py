@@ -4,8 +4,6 @@ from flask import Flask, request
 
 
 UPLOAD_FOLDER = ''
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'csv'}
-
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -16,6 +14,7 @@ def upload_file():
 
   if request.method == 'POST':
       f = request.files['file']
+      
       f.save(f.filename)
       return 'file uploaded successfully'
 
