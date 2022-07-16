@@ -25,6 +25,12 @@ def upload_file_api():
 	if request.method == 'POST':
 		f = request.files['file']
 		file_name = f.filename
+
+		# Checking the file format, a response is sent from the function return if wrong format
+		allowed = allowed_file(file_name)
+		if allowed != True:
+			return allowed
+
 		f.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
 		
 		resp = job.process(UPLOAD_FOLDER)
