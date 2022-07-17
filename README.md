@@ -5,8 +5,9 @@
 2/ Docker implementation via Python into the service. docker-py library. <br />
 3/ security checks -> hard to implement, will work on later <br />
 4/ Process of storing job perfs into data/perf.json and mount volume.
-
-Realised the Dockerfile provided is one supposed to fail! As the data dir is not mkdir before.
+5/ Storing data in DB before sending it to client
+6/ Retrieving data from DB
+7/ Send it to client
 
 
 ## Container security
@@ -31,3 +32,8 @@ logs -> output from the Snyk analysis
 ## What could be improved
 
 All the global variables 'CONTAINER_LIMIT', 'ALLOWED_FILES', 'UPLOAD_FOLDER' could be put in a json file and retrieve through the code.
+
+## Limits of the code
+
+The volume being staticaly defined -> 'data' by default but some may argue it should be passed as a var in the dockerfile </br>
+Security shell script -> executing shell in python program doesn't seem relevant at all and allows for some inconsistency depending on the system where the code is deployed

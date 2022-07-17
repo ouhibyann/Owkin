@@ -1,18 +1,17 @@
 
 import docker
 
-
 # Set the container:
     # memory
     # total memory
     # CPU shares
     # CPU to be used
-CONTAINER_LIMIT = {'memory': 1*10**9, 'memswap': -1, 'cpushares': 1, 'cpusetcpus': 2 }
+CONTAINER_LIMIT = {'memory': 1*10**9, 'memswap': -1, 'cpushares': 2, 'cpusetcpus': 2 }
 
 docker_client = docker.from_env()
 
 
-def build(Dockerfile_path, image_tag='latest'):
+def build_image(Dockerfile_path, image_tag='latest'):
     """
     This method build a docker image from a submited dockerfile
 
@@ -26,7 +25,15 @@ def build(Dockerfile_path, image_tag='latest'):
     # get_ContainerID()
 
 
-def run(image):
+def get_Image(image):
+    return docker_client.images.get(image)
+
+
+def build_container(docker_image, container_name):
+    return docker_client.containers.create(docker_image, name=container_name)
+
+
+def run_container(docker_image, container_name='Owkin', volume=['data:/data']):
 
     """
     This method run a docker container from a previously built image
@@ -35,19 +42,18 @@ def run(image):
     :return     False if error in container run - means error in Dockerfile 
     """
     try:
-        docker_client.containers.run(image)
-    except docker.errors.ContainerError:
+        docker_client.containers.run(docker_image, name=container_name, volumes=volume)
+    except (docker.errors.ContainerError, docker.errors.APIError):
         return False
 
 
+
 def create_volume(volume_name):
+    # As we need to create a volume on /data directory
+    # The optional 'volumes' param is provided by default
     docker_client.volumes.create(name=volume_name, driver='local')
-    
-  
+
+
 def get_volume(volume_name):
     return docker_client.volumes.get(volume_name)
-
-
-def get_Image(image):
-    return docker_client.images.get(image)
 
