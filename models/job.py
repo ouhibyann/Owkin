@@ -1,4 +1,3 @@
-from sqlalchemy import null
 from models.db import db, ma
 from marshmallow import fields
 
@@ -8,7 +7,7 @@ class JobModel(db.Model):
     
     job_id = db.Column(db.Integer, primary_key=True)
     job_status = db.Column(db.String(128))
-    docker_image_id = db.Column(db.Integer)
+    docker_image_id = db.Column(db.String(128))
     performances = db.Column(db.Float)
     logs = db.Column(db.JSON)
 

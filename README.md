@@ -43,6 +43,7 @@ Everything is mapped in the 'config.json' so you can configure your own.
 
 ## Postman
 I provided JSON postman curls to test the different endpoints.
+Also, POST and DELETE were not necessary for the service but I added them as it was more convinient to interact with DB trough it for you to test the code.
 <br />
 
 
@@ -55,5 +56,6 @@ I provided JSON postman curls to test the different endpoints.
 ## What could be improved
   *  To manage the dependecy of roots in 'app.py', we may create a 'Ressource/jobs.py' file where all the @route related to the jobs are mapped and then use 'add.ressource' to the correct ressource in app.py. This is allowed by 'flask-restful' framework for exemple.
   *  More tests coverage, for exemple submit different Dockerfile as input and see if job_status is the one expected.
+  *  Use of a 'config.py' file - as it's common with flask - instead of a config.json. But the JSON allows easier modif for the declared varialbes inside of it.
   *  Make the app run inside a container so it can access the volume 'data' and read the perf from it. <br />
   *  Make it easier for you to check the work -> config.json to help -> The best way would be a docker compose to run with the app in 1 container and the postgreSQL db in the other, and you just have to endpoints the container' addresses to check everything without any installation.

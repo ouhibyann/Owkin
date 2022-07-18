@@ -30,13 +30,12 @@ JobSchema = JobSchema()
 @app.route('/upload', methods = ['POST'])
 def upload_file_api():
 	
-	
 	"""
 	This method responds to a POST request for /upload
 	with a dockerfile submitted
 
 	:params		None
-	:return 	json dict -> {job_id: val, job_status: val}
+	:return 	json dict -> {job_id: val}
 	"""
 
 	if request.method == 'POST':
@@ -77,24 +76,77 @@ def upload_file_api():
 
 			return JobSchema.dump({
 				'job_id': latest_id
-				})
+				}), 201
 
 		else:
 			return 'Wrong file format', 400
 
 
-@app.route('/job/<int:id>', methods = ['GET'])
+@app.route('/job/<int:id>', methods = ['GET', 'DELETE'])
 def get_job(id):
 
-	if request.method == 'GET':
-		job = JobModel.query.get(id) # As id is the primary key, get() works well
+	"""
+	This method responds to a GET request for /job
 
+	:params		id
+	:return 	json dict -> db.JobModel based dict
+	"""
+	if request.method == 'GET':
+
+		job = JobModel.query.get(id) # As id is the primary key, get() works well
 		if job is not None:
 			return JobSchema.dump(job)
-
 		else:
 			return 'Not found', 404 # Empty in base
 
+	if request.method == 'DELETE':
 
+		record = JobModel.query.get(id)
+		if record is None:
+			return 'Not found', 404
+		else:
+			db.session.delete(record) # As id is the primary key, get() works well
+			db.session.commit()
+			return 'deleted', 200 # Empty in base
+
+
+
+@app.route('/job', methods = ['POST'])
+def post_job():
+	"""
+	This method isn't usefull for the service per se.
+	However, it is usefull if you want to do some manipulation on the DB to check on how the service respond
+	
+	:params		json
+	:return		job_id
+	"""
+
+	if request.method == 'POST':
+
+		json_data = request.get_json()
+		if not json_data:
+			return 'No input data provided', 400
+
+		else:
+			data = JobSchema.load(json_data)
+			
+			job_id = JobModel.query.get(data['job_id'])
+			exist = JobSchema.dump(job_id)
+			if exist:
+				return 'Job already exist', 400
+
+			job = JobModel(
+				job_id=data['job_id'],
+				job_status=data['job_status'],
+				docker_image_id=data['docker_image_id'],
+				performances=data['performances'],
+				logs=data['logs'])
+
+			db.session.add(job)
+			db.session.commit()
+
+		return 'job created', 201
+
+	
 if __name__ == "__main__":               
 		app.run(host='127.0.0.1',port = 5000)
