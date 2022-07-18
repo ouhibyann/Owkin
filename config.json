@@ -1,0 +1,6 @@
+{
+    "UPLOAD_FOLDER": "tmp",
+    "POSTGRESQL_URL": "postgresql://postgres:postgres@localhost:5432/owkin",
+    "SQLALCHEMY_TRACK_MODIFICATIONS": false,
+    "CONTAINER_LIMIT": {"memory": 1000000000, "memswap": -1, "cpushares": 2, "cpusetcpus": 2 }
+}

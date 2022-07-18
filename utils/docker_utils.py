@@ -1,12 +1,12 @@
 
 import docker
+import json
 
-# Set the container:
-    # memory
-    # total memory
-    # CPU shares
-    # CPU to be used
-CONTAINER_LIMIT = {'memory': 1*10**9, 'memswap': -1, 'cpushares': 2, 'cpusetcpus': 2 }
+
+f = open('config.json')
+dict = json.load(f)
+f.close()
+CONTAINER_LIMIT = dict['CONTAINER_LIMIT']
 
 docker_client = docker.from_env()
 

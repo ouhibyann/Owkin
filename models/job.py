@@ -1,3 +1,4 @@
+from sqlalchemy import null
 from models.db import db, ma
 from marshmallow import fields
 
@@ -11,7 +12,7 @@ class JobModel(db.Model):
     performances = db.Column(db.Float)
     logs = db.Column(db.JSON)
 
-    def __init__(self, job_id, job_status, docker_image_id, performances, logs) -> None:
+    def __init__(self, job_id, job_status, docker_image_id=None, performances=None, logs=None) -> None:
         super().__init__()
         self.job_id = job_id
         self.job_status = job_status
