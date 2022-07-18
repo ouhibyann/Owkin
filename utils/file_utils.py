@@ -1,11 +1,8 @@
 
-
-from click import FileError
-
 ALLOWED_FILES = {'Dockerfile'}
 
 
-def allowed_file(filename):
+def allowed_file(filename) -> bool:
     """
     Checking the file submited to the service as we expect only dockerfile
 
@@ -16,5 +13,5 @@ def allowed_file(filename):
     if filename in ALLOWED_FILES:
         return True
     else:
-        return FileError
+        return False
     
