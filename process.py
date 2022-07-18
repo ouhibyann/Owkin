@@ -29,14 +29,3 @@ def process(Dockerfile):
     output = run_container(r)
 
     return output
-
-    # retrieve the last job_id then add a new-one to the table
-"""    data = {
-        'job_id': 1, 
-        'job_status': 'success',
-        'performances': 0.99
-    }
-
-    return data"""
-
-
