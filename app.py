@@ -84,8 +84,9 @@ def upload_file_api():
 def get_job(id):
 
 	if request.method == 'GET':
-		
-		return 'yes'
+		job = JobModel.query.get(id) # As id is the primary key, get() works well
+
+		return JobSchema.dump(job)
 
 
 if __name__ == "__main__":               
