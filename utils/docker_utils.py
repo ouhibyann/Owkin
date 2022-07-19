@@ -2,11 +2,8 @@
 import docker
 import json
 
+from config import CONTAINER_LIMIT
 
-f = open('config.json')
-dict = json.load(f)
-f.close()
-CONTAINER_LIMIT = dict['CONTAINER_LIMIT']
 
 docker_client = docker.from_env()
 

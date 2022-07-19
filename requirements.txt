@@ -1,5 +1,6 @@
 markupsafe==2.0.1
 marshmallow
-flask_sqlalchemy==2.1.0
+flask_sqlalchemy
 flask
+flask_restful
 docker
