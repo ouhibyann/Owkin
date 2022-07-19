@@ -105,7 +105,7 @@ def get_job(id):
 		if record is None:
 			return 'Not found', 404
 		else:
-			db.session.delete(record) # As id is the primary key, get() works well
+			db.session.delete(record)
 			db.session.commit()
 			return 'deleted', 200 # Empty in base
 
@@ -123,12 +123,14 @@ def post_job():
 
 	if request.method == 'POST':
 
-		json_data = request.get_json()
+		# get_json changed to get_data as it was causing issue with native post test
+		json_data = request.get_data()
+		
 		if not json_data:
 			return 'No input data provided', 400
 
 		else:
-			data = JobSchema.load(json_data)
+			data = JobSchema.loads(json_data)
 			
 			job_id = JobModel.query.get(data['job_id'])
 			exist = JobSchema.dump(job_id)
